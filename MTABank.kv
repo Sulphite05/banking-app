@@ -1,0 +1,720 @@
+Manager:
+    WelcomeScreen:     # creating objects of screens
+    SignUpInterface:
+    CreateAccountInterface:
+    SignInInterface:
+    UserInterface:
+    CurrentAccountInterface:
+    CheckingAccountInterface:
+    SavingsAccountInterface:
+    LoanAccountInterface:
+    AdminVerification:
+    AdminPortal:
+    UserDataSheet:
+    BasicAccountReport:
+    CheckingAccountReport:
+    SavingAccountReport:
+    LoanAccountReport:
+
+<WelcomeScreen@Screen>:  # defining the screen
+    name: 'Welcome'
+    BackgroundImage:
+
+    BoxLayout:
+        orientation: 'vertical' # divides objects in screen row wise
+        padding: '190dp'
+        spacing: '15dp'
+
+        Label:
+            text:'Welcome to the MTA Banking App\n\n'
+            font_size: '30sp'
+            bold: True
+
+        Button:
+            text: 'Sign up'
+            font_size: '20sp'
+            # background_color: 0.859, 0.549, 0.114, 0.58
+            on_press:
+                app.root.current = 'Sign up Interface'
+                root.manager.transition.direction = 'left'
+
+        Button:
+            text:'Log in'
+            font_size: '20sp'
+            # background_color: 0.859, 0.549, 0.114, 0.58
+            on_release:
+                app.root.current = 'Sign In Interface'   # root means the class in py/kivy file that you are working on right now
+                root.manager.transition.direction = 'left'
+
+        LinkLabel:
+            text:'\nAdministrator? Click here to switch interface...'
+            font_size: '15sp'
+            underline: True
+            color: 'cyan'
+            on_press:
+                app.root.current = 'Admin Verification'
+                root.manager.transition.direction = 'left'
+
+<SignUpInterface>:
+    name: 'Sign up Interface'
+
+    BackgroundImage:
+
+    GridLayout:
+        rows: 13
+        padding: '100dp'
+        spacing: '10dp'
+
+        Label:
+            text: '\nSign Up\n'
+            font_size: '30sp'
+            bold: True
+            valign: 'middle'
+            halign: 'center'
+
+        Label:
+            text: 'First Name:'
+            font_size: '15sp'
+            size_hint: None, None
+            size: '77dp', '20dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: first_name
+            hint_text: 'First Name'
+            opacity: 0.75
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Last Name:'
+            font_size: '15sp'
+            size_hint: None, None
+            size: '77dp', '20dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: last_name
+            hint_text: f'Last Name'
+            opacity: 0.75
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Address:'
+            font_size: '15sp'
+            size_hint: None, None
+            size: '77dp', '20dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: address
+            hint_text: f'Address'
+            opacity: 0.75
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Username:'
+            font_size: '15sp'
+            size_hint: None, None
+            size: '77dp', '20dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: username
+            hint_text: f'Username'
+            opacity: 0.75
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Password:'
+            font_size: '15sp'
+            size_hint: None, None
+            size: '77dp', '20dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: password
+            hint_text: f'Password'
+            opacity: 0.75
+            multiline: False
+            password: True
+            size_hint: 1, None
+            height: '30dp'
+
+        Button:
+            text:'Done'
+            font_size: '15sp'
+            bold: True
+            size_hint: None, None
+            height: '30dp'
+            width: '50dp'
+            on_press :
+                root.signup_btn(first_name, last_name, address, username, password)
+
+        Button:
+            text:'Go Back'
+            bold: True
+            font_size: '15sp'
+            size_hint: None, None
+            height: '30dp'
+            width: '70dp'
+            on_release:
+                app.root.current = 'Welcome'
+                root.manager.transition.direction = 'right'
+                first_name.text = ""
+                last_name.text = ""
+                address.text = ""
+                password.text = ""
+                username.text = ""
+
+<CreateAccountInterface>:
+    name: 'Create Account'
+    BackgroundImage:
+
+    GridLayout:
+        rows: 7
+        padding: '100dp'
+        spacing: '20dp'
+
+        Label:
+            text: '\nCreate Bank Account\n'
+            font_size: '30sp'
+            bold: True
+            markup: True
+            valign: 'middle'
+            halign: 'center'
+
+        Label:
+            text: f'Select any number of accounts you would like to create:\n[size=25](In case of selecting none, a current account will be created)[/size]'
+            font_size: '18dp'
+            markup: True
+            valign: 'middle'
+            halign: 'center'
+
+        ToggleButton:
+            id: t1
+            background_color: 0.89, 0.647, 0.306, 0.58
+            text: 'Checking Account'
+            font_size: '20sp'
+
+        ToggleButton:
+            id: t2
+            background_color: 0.859, 0.549, 0.114, 0.58
+            text: 'Saving Account'
+            font_size: '20sp'
+
+        ToggleButton:
+            id: t3
+            background_color: 0.561, 0.408, 0.196, 0.58
+            text: 'Loan Account'
+            font_size: '20sp'
+
+        Button:
+            text:'Done'
+            font_size: '15sp'
+            bold: True
+            size_hint: None, None
+            height: '35dp'
+            width: '55dp'
+            on_press :
+                root.createAccBtn(t1, t2, t3)
+                root.display(t1, t2, t3)
+
+<SignInInterface>:
+    name: 'Sign In Interface'
+    BackgroundImage:
+
+    GridLayout:
+        rows: 8
+        padding: '100dp'
+        spacing: '30dp'
+
+        Label:
+            text: '\nSign In\n'
+            font_size: '30sp'
+            bold: True
+            valign: 'middle'
+            halign: 'center'
+
+        Label:
+            text: 'Username:'
+            font_size: '18dp'
+            size_hint: None, None
+            size: '80dp', '10dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: username
+            hint_text: 'Username'
+            opacity: 0.75
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Password:'
+            font_size: '18dp'
+            size_hint: None, None
+            size: '80dp', '10dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: password
+            hint_text: 'Password'
+            opacity: 0.75
+            multiline: False
+            password: True
+            size_hint: 1, None
+            height: '30dp'
+
+        Button:
+            text:'Done'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            height: '35dp'
+            width: '50dp'
+            on_press :
+                root.signin_btn(username, password)
+                password.text = ""
+                username.text = ""
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            height: '35dp'
+            width: '70dp'
+            on_release:
+                password.text = ""
+                username.text = ""
+                app.root.current = 'Welcome'
+                root.manager.transition.direction = 'right'
+
+<UserInterface>:
+    name: 'User Interface'
+    on_enter:
+        root.userInterface()
+    BackgroundImage:
+
+<CurrentAccountInterface>:
+    id: CurrentAcc
+    name: 'Current Account Interface'
+    BackgroundImage:
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '140dp'
+        spacing: '15dp'
+
+        Label:
+            text:'Welcome to your Current Account\nWhat would you like to do?\n\n'
+            font_size: '26sp'
+            bold: True
+            halign: 'center'
+            valign: 'middle'
+
+        Button:
+            text: 'View Balance'
+            font_size: '20sp'
+            background_color: 0.89, 0.647, 0.306, 0.58
+            on_release:
+                root.view_balance()
+
+        Button:
+            text: 'Deposit Amount'
+            font_size: '20sp'
+            background_color: 0.859, 0.549, 0.114, 0.58
+            on_release:
+                root.deposit()
+
+        Button:
+            text: 'Withdraw Amount'
+            font_size: '20sp'
+            background_color: 0.561, 0.408, 0.196, 0.58
+            on_release:
+                root.withdraw()
+
+        Button:
+            text: 'View Report'
+            font_size: '20sp'
+            background_color: 0.451, 0.399, 0.215, 0.58
+            on_release:
+                root.viewReport()
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            size: '70dp', '35dp'
+            on_release:
+                app.root.current = 'User Interface'
+                root.manager.transition.direction = 'right'
+
+<CheckingAccountInterface>:
+    id: CheckingAcc
+    name: 'Checking Account Interface'
+    BackgroundImage:
+
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '140dp'
+        spacing: '15dp'
+
+
+        Label:
+            text:'Welcome to your Checking Account\nWhat would you like to do?\n\n'
+            font_size: '26sp'
+            bold: True
+            halign: 'center'
+            valign: 'middle'
+
+        Button:
+            text: 'View Balance'
+            font_size: '20sp'
+            background_color: 0.89, 0.647, 0.306, 0.58
+            on_release:
+                root.view_balance()
+
+        Button:
+            text: 'Deposit Amount'
+            font_size: '20sp'
+            background_color: 0.859, 0.549, 0.114, 0.58
+            on_release:
+                root.deposit()
+
+        Button:
+            text: 'Withdraw Amount'
+            font_size: '20sp'
+            background_color: 0.561, 0.408, 0.196, 0.58
+            on_release:
+                root.withdraw()
+
+        Button:
+            text: 'View Report'
+            font_size: '20sp'
+            background_color: 0.451, 0.399, 0.215, 0.58
+            on_release:
+                root.viewReport()
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            size: '70dp', '35dp'
+            on_release:
+                app.root.current = 'User Interface'
+                root.manager.transition.direction = 'right'
+
+<SavingsAccountInterface>:
+    id: SavingsAcc
+    name: 'Savings Account Interface'
+    on_enter: root.add_interest()
+    BackgroundImage:
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '140dp'
+        spacing: '15dp'
+
+        Label:
+            text:'Welcome to your Saving Account\nWhat would you like to do?\n\n'
+            font_size: '26sp'
+            bold: True
+            halign: 'center'
+            valign: 'middle'
+
+        Button:
+            text: 'View Savings'
+            font_size: '20sp'
+            background_color: 0.89, 0.647, 0.306, 0.58
+            on_release:
+                root.view_balance()
+
+        Button:
+            text: 'Deposit Savings'
+            font_size: '20sp'
+            background_color: 0.859, 0.549, 0.114, 0.58
+            on_release:
+                root.deposit()
+
+        Button:
+            text: 'Withdraw Savings'
+            font_size: '20sp'
+            background_color: 0.561, 0.408, 0.196, 0.58
+            on_release:
+                root.withdraw()
+
+        Button:
+            text: 'View Report'
+            font_size: '20sp'
+            background_color: 0.451, 0.399, 0.215, 0.58
+            on_release:
+                root.viewReport()
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            size: '70dp', '35dp'
+            on_release:
+                app.root.current = 'User Interface'
+                root.manager.transition.direction = 'right'
+
+<LoanAccountInterface>:
+    name: 'Loan Account Interface'
+    BackgroundImage:
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '140dp'
+        spacing: '15dp'
+
+        Label:
+            text:'Welcome to your Loan Account\nWhat would you like to do?\n\n'
+            font_size: '26sp'
+            bold: True
+            halign: 'center'
+            valign: 'middle'
+
+        Button:
+            text: 'View Loan Details'
+            font_size: '20sp'
+            background_color: 0.89, 0.647, 0.306, 0.58
+            on_release:
+                root.loan_details()
+
+        Button:
+            text: 'Deposit Loan Payment'
+            font_size: '20sp'
+            background_color: 0.859, 0.549, 0.114, 0.58
+            on_release:
+                root.loan_payment()
+
+        Button:
+            text: 'View Report'
+            font_size: '20sp'
+            background_color: 0.451, 0.399, 0.215, 0.58
+            on_release:
+                root.viewReport()
+
+        Button:
+            text: 'View terms and conditions'
+            font_size: '20sp'
+            background_color: 0.561, 0.408, 0.196, 0.58
+            on_release:
+                root.viewTC()
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            size: '70dp', '35dp'
+            on_release:
+                app.root.current = 'User Interface'
+                root.manager.transition.direction = 'right'
+
+<AdminVerification>:
+    name: 'Admin Verification'
+    BackgroundImage:
+
+    GridLayout:
+        rows: 8
+        padding: '100dp'
+        spacing: '20dp'
+
+        Label:
+            text: '\nAdministrator Log In\n'
+            font_size: '30dp'
+            size_hint: None, None
+            size: '600dp', '50dp'
+            bold: True
+            valign: 'middle'
+            halign: 'center'
+
+        Label:
+            text: f'Username:'
+            font_size: '18dp'
+            size_hint: None, None
+            size: '78dp', '30dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: username
+            hint_text: 'Username'
+            multiline: False
+            size_hint: 1, None
+            height: '30dp'
+
+        Label:
+            text: 'Password:'
+            font_size: '18dp'
+            size_hint: None, None
+            size: '78dp', '30dp'
+            bold: True
+            halign: 'left'
+
+        TextInput:
+            id: password
+            hint_text: 'Password'
+            multiline: False
+            password: True
+            size_hint: 1, None
+            height: '30dp'
+
+        Button:
+            text:'Done'
+            font_size: '16dp'
+            bold: True
+            size_hint: None, None
+            height: '35dp'
+            width: '50dp'
+            on_press :
+                root.admin_btn(username, password)
+                password.text = ""
+                username.text = ""
+
+        Button:
+            text:'Go Back'
+            font_size: '16dp'
+            bold: True
+            size_hint: None, None
+            height: '35dp'
+            width: '70dp'
+            on_release:
+                password.text = ""
+                username.text = ""
+                app.root.current = 'Welcome'
+                root.manager.transition.direction = 'right'
+
+
+<AdminPortal@Screen>:
+    name: 'Admin Portal'
+
+    BackgroundImage:
+
+    GridLayout:
+        rows: 9
+        padding: '100dp'
+        spacing: '12dp'
+
+        Label:
+            text: '\nWelcome, Dear Admin\n'
+            font_size: '30dp'
+            bold: True
+            valign: 'middle'
+            halign: 'center'
+
+        Label:
+            text: 'Which report would you like to view?'
+            font_size: '18dp'
+            markup: True
+            valign: 'middle'
+            halign: 'center'
+
+        Button:
+            id: b
+            background_color: 0.92, 0.847, 0.506, 0.58
+            text: 'Users Datasheet'
+
+            on_press:
+                app.root.current = 'User Datasheet'
+                root.manager.transition.direction = 'down'
+
+        Button:
+            id: b1
+            background_color: 0.92, 0.747, 0.406, 0.58
+            text: 'Basic Account Report'
+
+            on_press:
+                app.root.current = 'Basic Account Report'
+                root.manager.transition.direction = 'down'
+
+        Button:
+            id: b2
+            background_color: 0.89, 0.647, 0.306, 0.58
+            text: 'Checking Account Report'
+
+            on_press:
+                app.root.current = 'Checking Account Report'
+                root.manager.transition.direction = 'down'
+
+        Button:
+            id: b3
+            background_color: 0.859, 0.549, 0.114, 0.58
+            text: 'Saving Account Report'
+
+            on_press:
+                app.root.current = 'Saving Account Report'
+                root.manager.transition.direction = 'down'
+
+        Button:
+            id: b4
+            background_color: 0.561, 0.408, 0.196, 0.58
+            text: 'Loan Account Report'
+
+            on_press:
+                app.root.current = 'Loan Account Report'
+                root.manager.transition.direction = 'down'
+
+        Button:
+            text:'Go Back'
+            font_size: '15dp'
+            bold: True
+            size_hint: None, None
+            size: '70dp', '35dp'
+            on_release:
+                app.root.current = 'Admin Verification'
+                root.manager.transition.direction = 'right'
+
+<UserDataSheet>:
+    name: 'User Datasheet'
+    on_enter: root.display()
+    BackgroundImage:
+
+<BasicAccountReport>:
+    name: 'Basic Account Report'
+    on_enter: root.display()
+    BackgroundImage:
+
+<CheckingAccountReport>:
+    name: 'Checking Account Report'
+    on_enter: root.display()
+    BackgroundImage:
+
+<SavingAccountReport>:
+    name: 'Saving Account Report'
+    on_enter: root.display()
+    BackgroundImage:
+
+<LoanAccountReport>:
+    name: 'Loan Account Report'
+    on_enter: root.display()
+    BackgroundImage:
+
+<BackgroundImage@Image>:
+    source: 'Image.jpeg'
+    allow_stretch: True
+    keep_ratio: False
+    opacity: 0.45
